@@ -94,4 +94,52 @@ mySql_app.establish_connection()
 print()
 postgre_app = DatabaseApplication(PostgreSQLFactory())
 postgre_app.establish_connection()
+
+
+# Alternate Code
+
+class DataBase:
+    def connect(self):
+        pass
+
+    def execute_query(self, query):
+        pass
+
+class MySQL(DataBase):
+    def connect(self):
+        return "MySQL Database connected successfully."
+
+    def execute_query(self, query):
+        return f"MySQL Query : {query}"
+
+class PostgresSQL(DataBase):
+    def connect(self):
+        return "PostgresSQL connected successfully."
+
+    def execute_query(self, query):
+        return f"Postgres Query : {query}"
+
+class DataBaseApplication:
+    def __init__(self, factory):
+        db_dict = {
+            'MySQL': MySQL(),
+            'PostgresSQL':PostgresSQL()
+        }
+        self.factory = db_dict[factory]
+
+    def establish_connection(self):
+        connect = self.factory.connect()
+        execute = self.factory.execute_query("Query")
+
+        print(connect)
+        print(execute)
+
+
+print()
+db = DataBaseApplication('MySQL')
+db.establish_connection()
+print()
+db1 = DataBaseApplication('PostgresSQL')
+db1.establish_connection()
+print()
 ```

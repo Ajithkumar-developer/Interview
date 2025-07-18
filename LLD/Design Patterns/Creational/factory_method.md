@@ -120,26 +120,23 @@ class PostgresSQL(DataBase):
         return f"Postgres Query : {query}"
 
 class DataBaseApplication:
-    def __init__(self, factory):
-        db_dict = {
-            'MySQL': MySQL(),
-            'PostgresSQL':PostgresSQL()
-        }
-        self.factory = db_dict[factory]
+    db_dict = {
+        'MySQL': MySQL(),
+        'PostgresSQL': PostgresSQL()
+    }
 
-    def establish_connection(self):
-        connect = self.factory.connect()
-        execute = self.factory.execute_query("Query")
-
-        print(connect)
-        print(execute)
+    @staticmethod
+    def create_db(db_name):
+        return DataBaseApplication.db_dict[db_name]
 
 
 print()
-db = DataBaseApplication('MySQL')
-db.establish_connection()
+mysql = DataBaseApplication.create_db('MySQL')
+print(mysql.connect())
+print(mysql.execute_query("Query"))
 print()
-db1 = DataBaseApplication('PostgresSQL')
-db1.establish_connection()
+postgressql = DataBaseApplication.create_db('PostgresSQL')
+print(postgressql.connect())
+print(postgressql.execute_query("Query"))
 print()
 ```
